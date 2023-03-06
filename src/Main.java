@@ -12,10 +12,10 @@ public class Main {
         myContacts.add(new Contact(5,"Eric", "Marete",98765));
 
         ArrayList <Message> myMessages = new ArrayList<Message>();
-        myMessages.add(new Message("Hello, I need water", 1));
-        myMessages.add(new Message("Good Morning. Is the meeting still on?", 2));
-        myMessages.add(new Message("Good Morning. Is the meeting still on?", 2));
-        myMessages.add(new Message("Thank you I had a good time", 2));
+        myMessages.add(new Message("Hello, I need water", 1234));
+        myMessages.add(new Message("Good Morning. Is the meeting still on?", 12345));
+        myMessages.add(new Message("Good Morning. Is the meeting still on?", 123456));
+        myMessages.add(new Message("Thank you I had a good time", 23456));
 
         Scanner scanner = new Scanner(System.in);
 
@@ -85,9 +85,38 @@ public class Main {
                     }
                     break;
                 case 2:
-                    System.out.println("\t 1. See all messages");
-                    System.out.println("\t 2. send a new message");
-                    System.out.println("\t 3. Go back to previous menu");
+                    boolean shouldContinueMessages = true;
+                    while(shouldContinueMessages){
+                        System.out.println("Choose an option");
+                        System.out.println("\t 1. See all messages");
+                        System.out.println("\t 2. send a new message");
+                        System.out.println("\t 3. Go back to previous menu");
+                        int messageInput = scanner.nextInt();
+                        switch(messageInput){
+                            case 1:
+                                myMessages.forEach(message->{
+                                    System.out.printf("%d, %s \n",message.getPhoneNumber(), message.getText());
+                                });
+                                break;
+                            case 2:
+                                try {
+                                    System.out.println("Enter the phone number of the recipient:");
+                                    int number = scanner.nextInt();
+                                    scanner.nextLine(); // consume the newline character
+                                    System.out.println("Enter the text for the message:");
+                                    String text = scanner.nextLine(); // use nextLine() to read the whole line of text
+                                    Message newMessage = new Message(text, number);
+                                    myMessages.add(newMessage);
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());
+                                }
+                                break;
+                            case 3:
+                                shouldContinueMessages = false;
+                        }
+                    }
+
+
                 case 3:
                     System.out.println("good bye");
                     shouldContinueMainMenu = false;
